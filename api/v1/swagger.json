@@ -1,0 +1,103 @@
+{
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "schemes": [
+      "http"
+    ],
+    "basePath": "/v1",
+    "swagger": "2.0",
+    "info": {
+      "description": "Documentation of the expenses API.",
+      "title": "Expenses",
+      "version": "1.0.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+      "/expenses": {
+        "get": { 
+          "summary": "Get all expenses",
+          "operationId": "Get expenses",
+          "parameters": [
+            {
+              "description": "The earliest date to fetch expenses from",
+              "name": "dateFrom",
+              "in": "query",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "description": "The latest date to fetch expenses from",
+              "name": "dateTo",
+              "in": "query",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                    "$ref": "#/definitions/Expenses"
+                }
+            },
+            "400": {
+                "description": "BAD REQUEST",
+                "schema": {
+                    "$ref": "#/definitions/RouteError"
+                }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+        "Expenses":{
+            "type": "object",
+            "properties": {
+                "count":{
+                    "type": "integer"
+                },
+                "expenses" :{
+                  "type":"array",
+                  "items": {
+                    "$ref": "#/definitions/Expense"
+                  }
+                }
+            },
+            "required": [
+              "count",
+              "expenses"
+          ]
+        },
+      "Expense": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "RouteError": {
+        "type": "object",
+        "properties": {
+            "message": {
+                "type": "string"
+            },
+            "err": {
+                "type": "integer",
+                "format": "int32"
+            }
+        }
+    }
+    },
+    "securityDefinitions": {
+    }
+  }
