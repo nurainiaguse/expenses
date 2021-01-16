@@ -20,6 +20,7 @@ func NewServer() *v1API.Server {
 	server := v1API.NewServer(api)
 
 	api.GetExpensesHandler = operations.GetExpensesHandlerFunc(v1Handler.NewGetExpensesHandler)
+	api.GetExpenseByIDHandler = operations.GetExpenseByIDHandlerFunc(v1Handler.NewGetExpenseByIDHandler)
 
 	return server
 }

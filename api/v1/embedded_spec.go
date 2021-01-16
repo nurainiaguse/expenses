@@ -69,6 +69,35 @@ func init() {
           }
         }
       }
+    },
+    "/expenses/{expenseId}": {
+      "get": {
+        "summary": "Get expense by ID",
+        "operationId": "Get expense by ID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The ID of the expense",
+            "name": "expenseId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "schema": {
+              "$ref": "#/definitions/RouteError"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -158,6 +187,35 @@ func init() {
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/Expenses"
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "schema": {
+              "$ref": "#/definitions/RouteError"
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{expenseId}": {
+      "get": {
+        "summary": "Get expense by ID",
+        "operationId": "Get expense by ID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The ID of the expense",
+            "name": "expenseId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Expense"
             }
           },
           "400": {

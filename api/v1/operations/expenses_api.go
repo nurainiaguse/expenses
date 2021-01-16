@@ -42,6 +42,9 @@ func NewExpensesAPI(spec *loads.Document) *ExpensesAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		GetExpenseByIDHandler: GetExpenseByIDHandlerFunc(func(params GetExpenseByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetExpenseByID has not yet been implemented")
+		}),
 		GetExpensesHandler: GetExpensesHandlerFunc(func(params GetExpensesParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetExpenses has not yet been implemented")
 		}),
@@ -79,6 +82,8 @@ type ExpensesAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// GetExpenseByIDHandler sets the operation handler for the get expense by ID operation
+	GetExpenseByIDHandler GetExpenseByIDHandler
 	// GetExpensesHandler sets the operation handler for the get expenses operation
 	GetExpensesHandler GetExpensesHandler
 	// ServeError is called when an error is received, there is a default handler
@@ -157,6 +162,9 @@ func (o *ExpensesAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.GetExpenseByIDHandler == nil {
+		unregistered = append(unregistered, "GetExpenseByIDHandler")
+	}
 	if o.GetExpensesHandler == nil {
 		unregistered = append(unregistered, "GetExpensesHandler")
 	}
@@ -248,6 +256,10 @@ func (o *ExpensesAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/expenses/{expenseId}"] = NewGetExpenseByID(o.context, o.GetExpenseByIDHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
